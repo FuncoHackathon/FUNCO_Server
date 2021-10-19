@@ -1,9 +1,12 @@
 import express from "express";
+import userRouter from "./routers/userRouter";
+import fundingRouter from "./routers/fundingRouter";
 
 const app = express();
 const PORT = 3000;
 
-app.get("/", (req, res) => res.send("hahaha"));
+app.use("/users", userRouter);
+app.use("/fundings", fundingRouter);
 
 const handleListening = () =>
   console.log(`✅ Listening on http://localhost:${PORT}`);
