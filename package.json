@@ -1,0 +1,27 @@
+{
+  "name": "funco_server",
+  "version": "1.0.0",
+  "description": "Funding the environment. FUNCO",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/server.js --exec babel-node"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FuncoHackathon/FUNCO_Server.git"
+  },
+  "author": "whitebear <woojs0505@naver.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FuncoHackathon/FUNCO_Server/issues"
+  },
+  "homepage": "https://github.com/FuncoHackathon/FUNCO_Server#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "nodemon": "^2.0.13"
+  }
+}
