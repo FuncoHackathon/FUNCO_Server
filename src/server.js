@@ -1,6 +1,6 @@
 import express from "express";
-import userRouter from "./routers/userRouter";
-import fundingRouter from "./routers/fundingRouter";
+import userRouter from "./routers/userRouter.js";
+import fundingRouter from "./routers/fundingRouter.js";
 
 const app = express();
 const PORT = 3000;
