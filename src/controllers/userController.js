@@ -106,10 +106,23 @@ export const postLogin = async (req, res) => {
 export const getName = async (req, res) => {
   const { name } = req.user;
   return res.status(200).json({
+    status: 200,
     name,
   });
 };
 
 export const deleteAccount = async (req, res) => {
-  const email = req.params.id;
+  const { _id } = req.user;
+  try {
+    User.findByIdAndDelete(_id);
+    return res.status(200).json({
+      status: 200,
+      message: "회원 탈퇴에 성공하였습니다. 언젠가 다시 만나요 ;)",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: "회원 탈퇴에 실패하였습니다. 다시 시도해주세요.",
+    });
+  }
 };
