@@ -4,6 +4,7 @@ import {
   getEmailCheck,
   postLogin,
   getName,
+  deleteAccount,
 } from "../controllers/userController";
 import { authenticateAccessToken } from "../middlewares.js";
 
@@ -15,7 +16,7 @@ userRouter.get("/logout", authenticateAccessToken, (req, res) =>
 userRouter.get("/name", authenticateAccessToken, getName);
 userRouter.post("/login", postLogin);
 userRouter.post("/join", postJoin);
-userRouter.delete("/account", (req, res) => res.send("delete account"));
+userRouter.delete("/account", authenticateAccessToken, deleteAccount);
 userRouter.get("/email", authenticateAccessToken, getEmailCheck);
 
 export default userRouter;
