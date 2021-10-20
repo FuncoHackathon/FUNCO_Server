@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
@@ -9,6 +10,12 @@ const userSchema = new mongoose.Schema({
   joinedFunding: [{ type: mongoose.Schema.Types.ObjectId, ref: "Funding" }],
 });
 
-const Uer = mongoose.model("User", userSchema);
+userSchema.pre("save", async function () {
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 5);
+  }
+});
+
+const User = mongoose.model("User", userSchema);
 
 export default User;
