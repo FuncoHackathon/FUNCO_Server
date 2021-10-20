@@ -62,9 +62,9 @@ export const getEmailCheck = async (req, res) => {
 export const postLogin = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const emailExists = await User.exists({ email });
-    if (!emailExists) {
-      res.status(400).json({
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({
         status: 400,
         message:
           "이 이메일을 가진 계정이 없습니다. 다시 이메일을 확인해주세요.",
@@ -74,7 +74,7 @@ export const postLogin = async (req, res) => {
     if (!ok) {
       return res.status(400).json({
         status: 400,
-        error: "비밀번호가 옳지 않습니다.",
+        message: "비밀번호가 옳지 않습니다.",
       });
     }
     const token = jwt.sign(
@@ -89,8 +89,14 @@ export const postLogin = async (req, res) => {
         issuer: "funco",
       }
     );
+    return res.status(200).json({
+      status: 200,
+      message: "로그인에 성공했습니다.",
+      token,
+    });
   } catch (error) {
-    res.status(500).json({
+    console.log(error);
+    return res.status(500).json({
       status: 500,
       message: "로그인에 실패하였습니다. 다시 시도해주세요.",
     });
@@ -99,7 +105,11 @@ export const postLogin = async (req, res) => {
 
 export const getName = async (req, res) => {
   const { name } = req.user;
-  res.status(200).json({
+  return res.status(200).json({
     name,
   });
+};
+
+export const deleteAccount = async (req, res) => {
+  const email = req.params.id;
 };
