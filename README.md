@@ -1,11 +1,4 @@
-# FUNCO_Server
-
-FUNCO 펀코 Server API Document
-<br/><br/>
-
----
-
-<br/>
+# FUNCO_Server API Document
 
 ### 펀딩 리스트 조회
 
@@ -55,6 +48,14 @@ POST /fundings/upload/img
 
 <br/>
 
+### 펀딩 참여
+
+```
+POST /fundings/fund
+```
+
+<br/>
+
 ---
 
 <br/>
@@ -75,7 +76,7 @@ POST /users/join
 
 <br/>
 
-### 유저 로그인 시 이메일 체크
+### 유저 로그인 시 이메일 중복 체크
 
 ```
 GET /users/email/:id
@@ -87,14 +88,6 @@ GET /users/email/:id
 
 ```
 DELETE /users/account
-```
-
-<br/>
-
-### 유저 로그아웃
-
-```
-GET /users/logout
 ```
 
 <br/>
@@ -111,4 +104,4 @@ GET /users/name
 
 <br/>
 if you have an issue, please email!
-woojs0505@naver.com
+```woojs0505@naver.com```
