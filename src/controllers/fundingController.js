@@ -37,8 +37,8 @@ export const getRanking = async (req, res) => {
 export const getMadeFunding = async (req, res) => {
   const { _id } = req.user;
   try {
-    const user = User.findById(_id).populate("myFunding");
-    const fundings = user.myfunding;
+    const user = await User.findById(_id).populate("myFunding");
+    const fundings = user.myFunding;
     return res.status(200).json({
       status: 200,
       fundings,

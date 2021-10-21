@@ -14,6 +14,6 @@ userRouter.get("/name", authenticateAccessToken, getName);
 userRouter.post("/login", postLogin);
 userRouter.post("/join", postJoin);
 userRouter.delete("/account", authenticateAccessToken, deleteAccount);
-userRouter.get("/email", authenticateAccessToken, getEmailCheck);
+userRouter.get("/email/:id", getEmailCheck);
 
 export default userRouter;
