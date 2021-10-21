@@ -1,13 +1,11 @@
-import { doTypesOverlap } from "graphql";
 import Funding from "../models/Funding.js";
 import User from "../models/User.js";
 
 export const getLists = async (req, res) => {
   try {
-    const fundings = await Funding.find({
-      path: "owner",
-      select: "name",
-    }).sort({ createdAt: "desc" });
+    const fundings = await Funding.find({})
+      .populate({ path: "owner", select: "name" })
+      .sort({ _id: "desc" });
     return res.status(200).json({
       status: 200,
       fundings,
@@ -86,8 +84,16 @@ export const postUploadImg = (req, res) => {
 
 export const postUpload = async (req, res) => {
   const { _id } = req.user;
-  const { title, goal, closingYear, closingMonth, closingDay, story, img } =
-    req.body;
+  const {
+    title,
+    tags,
+    goal,
+    closingYear,
+    closingMonth,
+    closingDay,
+    story,
+    img,
+  } = req.body;
   if (goal < 100000) {
     return res.status(400).json({
       status: 400,
@@ -97,6 +103,7 @@ export const postUpload = async (req, res) => {
   try {
     const newFunding = await Funding.create({
       title,
+      tags,
       goal,
       closingYear,
       closingMonth,

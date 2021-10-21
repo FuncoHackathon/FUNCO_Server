@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 import multer from "multer";
 
 export const authenticateAccessToken = (req, res, next) => {
-  console.log(req.headers);
   let authHeader = req.headers.authorization;
   let token = authHeader && authHeader.split(" ")[1];
   if (!token) {
