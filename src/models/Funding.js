@@ -10,8 +10,9 @@ const fundingSchema = new mongoose.Schema({
   closingMonth: { type: Number, required: true },
   closingDay: { type: Number, required: true },
   owner: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   img: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now() },
+  createdAt: { type: Date, default: Date.now(), required: true },
 });
 
 const Funding = mongoose.model("Funding", fundingSchema);

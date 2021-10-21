@@ -7,6 +7,7 @@ import {
   postUpload,
   postUploadImg,
   postJoinFunding,
+  postUploadComment,
 } from "../controllers/fundingController.js";
 import { authenticateAccessToken, upload } from "../middlewares.js";
 
@@ -19,5 +20,6 @@ fundingRouter.get("/joined", authenticateAccessToken, getJoinedFunding);
 fundingRouter.post("/upload/img", upload.single("img"), postUploadImg);
 fundingRouter.post("/upload", authenticateAccessToken, postUpload);
 fundingRouter.post("/fund", authenticateAccessToken, postJoinFunding);
+fundingRouter.post("/comment", authenticateAccessToken, postUploadComment);
 
 export default fundingRouter;

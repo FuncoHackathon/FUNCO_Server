@@ -1,5 +1,6 @@
 import Funding from "../models/Funding.js";
 import User from "../models/User.js";
+import Comment from "../models/Comment.js";
 
 export const getLists = async (req, res) => {
   try {
@@ -151,6 +152,36 @@ export const postJoinFunding = async (req, res) => {
     return res.status(500).json({
       status: 500,
       message: "펀딩 참여에 실패했습니다.",
+    });
+  }
+};
+
+export const postUploadComment = async (req, res) => {
+  const { _id } = req.user;
+  const { fundingId, text } = req.body;
+  try {
+    const funding = await Funding.findById(fundingId);
+    if (!funding) {
+      return res.status(404).json({
+        status: 404,
+        message: "펀딩 댓글을 업로드할 게시글을 찾지 못했습니다.",
+      });
+    }
+    const newComment = await Comment.create({
+      text,
+      owner: _id,
+      funding: funding._id,
+    });
+    funding.comments.push(newComment);
+    await funding.save();
+    return res.status(200).json({
+      status: 200,
+      message: "댓글 업로드에 성공했습니다.",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      messge: "펀딩 댓글 업로드에 실패했습니다.",
     });
   }
 };
