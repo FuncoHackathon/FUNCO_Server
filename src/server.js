@@ -14,6 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(cors());
+app.use("/uploads", express.static("uploads"));
 app.use("/users", userRouter);
 app.use("/fundings", fundingRouter);
 app.listen(app.get("port"), () =>

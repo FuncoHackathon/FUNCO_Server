@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import multer from "multer";
 
 export const authenticateAccessToken = (req, res, next) => {
   let authHeader = req.headers.authorization;
@@ -20,3 +21,7 @@ export const authenticateAccessToken = (req, res, next) => {
     next();
   });
 };
+
+export const upload = multer({
+  dest: "uploads/",
+});

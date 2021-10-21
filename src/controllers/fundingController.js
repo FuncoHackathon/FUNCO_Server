@@ -70,9 +70,23 @@ export const getJoinedFunding = async (req, res) => {
   }
 };
 
+export const postUploadImg = (req, res) => {
+  try {
+    return res.status(200).json({
+      status: 200,
+      img: req.file.path,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: "이미지 업로드에 실패했습니다.",
+    });
+  }
+};
+
 export const postUpload = async (req, res) => {
   const { _id } = req.user;
-  const { title, goal, closingYear, closingMonth, closingDay, story } =
+  const { title, goal, closingYear, closingMonth, closingDay, story, img } =
     req.body;
   if (goal < 100000) {
     return res.status(400).json({
@@ -87,7 +101,8 @@ export const postUpload = async (req, res) => {
       closingYear,
       closingMonth,
       closingDay,
-      SVGGeometryElement,
+      img,
+      story,
     });
     return res.status(200).json({
       status: 200,
