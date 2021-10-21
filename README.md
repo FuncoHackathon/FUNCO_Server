@@ -47,6 +47,14 @@ POST /fundings/upload
 
 <br/>
 
+### 펀딩 이미지 업로드
+
+```
+POST /fundings/upload/img
+```
+
+<br/>
+
 ---
 
 <br/>
