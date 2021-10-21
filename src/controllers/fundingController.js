@@ -74,7 +74,7 @@ export const postUploadImg = (req, res) => {
   try {
     return res.status(200).json({
       status: 200,
-      img: req.file.path,
+      img: req.file.filename,
     });
   } catch (error) {
     return res.status(500).json({
@@ -95,7 +95,7 @@ export const postUpload = async (req, res) => {
     });
   }
   try {
-    Funding.create({
+    const newFunding = await Funding.create({
       title,
       goal,
       closingYear,
@@ -103,7 +103,11 @@ export const postUpload = async (req, res) => {
       closingDay,
       img,
       story,
+      owner: _id,
     });
+    const user = await User.findById(_id);
+    user.myFunding.push(newFunding);
+    await user.save();
     return res.status(200).json({
       status: 200,
       message: "펀딩 게시에 성공했습니다 :)",
@@ -112,6 +116,34 @@ export const postUpload = async (req, res) => {
     return res.status(500).json({
       status: 500,
       message: "펀딩 게시에 실패했습니다.",
+    });
+  }
+};
+
+export const postJoinFunding = async (req, res) => {
+  const { _id } = req.user;
+  const { amount, fundingId } = req.body;
+  try {
+    const funding = await Funding.findById(fundingId);
+    if (!funding) {
+      return res.status(404).json({
+        status: 404,
+        message: "펀딩 게시글을 찾지 못했습니다.",
+      });
+    }
+    funding.current += amount;
+    await funding.save();
+    const user = await User.findById(_id);
+    user.joinedFunding.push(postingId);
+    await user.save();
+    return res.status(200).json({
+      status: 200,
+      message: "펀딩 참여에 성공했습니다 :)",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: "펀딩 참여에 실패했습니다.",
     });
   }
 };
