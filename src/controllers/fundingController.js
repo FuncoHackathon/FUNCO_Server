@@ -128,6 +128,37 @@ export const postUpload = async (req, res) => {
   }
 };
 
+export const deleteFundingUpload = async (req, res) => {
+  const {
+    user: { _id },
+    params: { id },
+  } = req;
+  try {
+    const funding = Funding.findById(id);
+    if (!funding) {
+      return res.status(404).json({
+        status: 404,
+        message: "삭제할 펀딩글을 찾지 못했습니다.",
+      });
+    }
+    if (funding._id !== _id) {
+      return res.status(400).json({
+        status: 400,
+        message: "펀딩글을 수정할 권한이 없습니다.",
+      });
+    }
+    for (comment of funding.comments) {
+      await Comment.deleteOne(comment);
+    }
+    await Funding.deleteOne(id);
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: "펀딩글 삭제에 실패했습니다.",
+    });
+  }
+};
+
 export const postJoinFunding = async (req, res) => {
   const { _id } = req.user;
   const { amount, fundingId } = req.body;
@@ -182,6 +213,77 @@ export const postUploadComment = async (req, res) => {
     return res.status(500).json({
       status: 500,
       messge: "펀딩 댓글 업로드에 실패했습니다.",
+    });
+  }
+};
+
+export const postEditComment = async (req, res) => {
+  const {
+    user: { _id },
+    params: { id },
+    body: { text },
+  } = req;
+  try {
+    const comment = await Comment.findById(id);
+    if (!comment) {
+      return res.status(404).json({
+        status: 400,
+        message: "수정할 댓글을 찾지 못했습니다.",
+      });
+    }
+    if (comment.owner !== _id) {
+      return res.status(400).json({
+        status: 400,
+        message: "댓글을 수정할 권한이 없습니다.",
+      });
+    }
+    comment.text = text;
+    await comment.save();
+    return res.status(200).json({
+      status: 200,
+      message: "댓글을 수정하였습니다.",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: "댓글 수정에 실패했습니다.",
+    });
+  }
+};
+
+export const deleteComment = async (req, res) => {
+  const {
+    user: { _id },
+    params: { id },
+  } = req;
+  try {
+    const comment = await Comment.findById(id);
+    if (!comment) {
+      return res.status(404).json({
+        status: 400,
+        message: "수정할 댓글을 찾지 못했습니다.",
+      });
+    }
+    if (comment.owner !== _id) {
+      return res.status(400).json({
+        status: 400,
+        message: "댓글을 수정할 권한이 없습니다.",
+      });
+    }
+    const funding = await Funding.findById(comment.funding);
+    funding.comments = funding.comments.filter(
+      (commentInFunding) => commentInFunding !== comment._id
+    );
+    await funding.save();
+    await Comment.deleteOne(id);
+    return res.status(200).json({
+      status: 200,
+      message: "댓글 삭제를 성공했습니다 :)",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 500,
+      message: "댓글 삭제를 실패했습니다.",
     });
   }
 };
