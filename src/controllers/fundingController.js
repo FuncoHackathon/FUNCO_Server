@@ -55,7 +55,7 @@ export const getMadeFunding = async (req, res) => {
 export const getJoinedFunding = async (req, res) => {
   const { _id } = req.user;
   try {
-    const user = User.findById(_id).populate("joinedFunding");
+    const user = await User.findById(_id).populate("joinedFunding");
     const fundings = user.joinedFunding;
     return res.status(200).json({
       status: 200,
