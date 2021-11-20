@@ -103,5 +103,4 @@ GET /users/name
 ---
 
 <br/>
-if you have an issue, please email!
-```woojs0505@naver.com```
+if you have an issue, please email! `woojs0505@naver.com`
